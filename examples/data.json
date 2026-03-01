@@ -1,0 +1,14 @@
+[
+  {
+    "customerName": "Alice Johnson",
+    "amount": "100.50"
+  },
+  {
+    "customerName": "Bob Smith",
+    "amount": "200.75"
+  },
+  {
+    "customerName": "Charlie Brown",
+    "amount": "150.25"
+  }
+]

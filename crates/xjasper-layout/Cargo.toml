@@ -1,0 +1,19 @@
+[package]
+name = "xjasper-layout"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Layout engine for XJasper - handles band expansion, grouping, and pagination"
+
+[dependencies]
+xjasper-core = { path = "../xjasper-core" }
+xjasper-data = { path = "../xjasper-data" }
+rust_decimal = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+serde_json = { workspace = true }

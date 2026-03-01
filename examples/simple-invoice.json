@@ -1,0 +1,95 @@
+{
+  "name": "simple-invoice",
+  "version": "0.1",
+  "page": {
+    "width": 595,
+    "height": 842,
+    "margins": [40, 40, 40, 40]
+  },
+  "fields": [
+    {
+      "name": "customerName",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "decimal"
+    }
+  ],
+  "variables": [
+    {
+      "name": "total",
+      "type": "decimal",
+      "calculation": "Sum",
+      "expression": "$F{amount}"
+    }
+  ],
+  "bands": {
+    "title": {
+      "height": 60,
+      "elements": [
+        {
+          "type": "staticText",
+          "x": 0,
+          "y": 10,
+          "width": 515,
+          "height": 40,
+          "text": "Invoice",
+          "style": {
+            "fontSize": 24,
+            "fontWeight": "bold"
+          }
+        }
+      ]
+    },
+    "detail": {
+      "height": 20,
+      "elements": [
+        {
+          "type": "textField",
+          "x": 0,
+          "y": 0,
+          "width": 300,
+          "height": 20,
+          "expression": "$F{customerName}"
+        },
+        {
+          "type": "textField",
+          "x": 300,
+          "y": 0,
+          "width": 215,
+          "height": 20,
+          "expression": "$F{amount}",
+          "style": {
+            "align": "right"
+          }
+        }
+      ]
+    },
+    "summary": {
+      "height": 30,
+      "elements": [
+        {
+          "type": "staticText",
+          "x": 200,
+          "y": 5,
+          "width": 100,
+          "height": 20,
+          "text": "Total:"
+        },
+        {
+          "type": "textField",
+          "x": 300,
+          "y": 5,
+          "width": 215,
+          "height": 20,
+          "expression": "$V{total}",
+          "style": {
+            "align": "right",
+            "fontWeight": "bold"
+          }
+        }
+      ]
+    }
+  }
+}

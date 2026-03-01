@@ -1,0 +1,169 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xjasper.dev/schema/template-v0.1.json",
+  "title": "XJasper Template v0.1",
+  "description": "JSON schema for XJasper report templates (minimal version)",
+  "type": "object",
+  "required": ["name", "version", "page", "fields", "bands"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Template name"
+    },
+    "version": {
+      "type": "string",
+      "description": "Template format version",
+      "const": "0.1"
+    },
+    "page": {
+      "type": "object",
+      "description": "Page configuration",
+      "required": ["width", "height", "margins"],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "description": "Page width in points (1/72 inch)",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "description": "Page height in points",
+          "minimum": 1
+        },
+        "margins": {
+          "type": "array",
+          "description": "Page margins [top, right, bottom, left] in points",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 4,
+          "maxItems": 4
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "description": "Data field definitions",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Field name"
+          },
+          "type": {
+            "type": "string",
+            "description": "Field type",
+            "enum": ["string", "decimal", "integer", "boolean", "date"]
+          }
+        }
+      }
+    },
+    "variables": {
+      "type": "array",
+      "description": "Variable definitions",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "calculation", "expression"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Variable name"
+          },
+          "type": {
+            "type": "string",
+            "description": "Variable type",
+            "enum": ["string", "decimal", "integer"]
+          },
+          "calculation": {
+            "type": "string",
+            "description": "Aggregation type",
+            "enum": ["Sum", "Count", "Average", "Min", "Max", "First"]
+          },
+          "expression": {
+            "type": "string",
+            "description": "Expression to evaluate"
+          }
+        }
+      }
+    },
+    "bands": {
+      "type": "object",
+      "description": "Band definitions",
+      "properties": {
+        "title": { "$ref": "#/definitions/band" },
+        "detail": { "$ref": "#/definitions/band" },
+        "summary": { "$ref": "#/definitions/band" }
+      }
+    }
+  },
+  "definitions": {
+    "band": {
+      "type": "object",
+      "required": ["height", "elements"],
+      "properties": {
+        "height": {
+          "type": "integer",
+          "description": "Band height in points",
+          "minimum": 0
+        },
+        "elements": {
+          "type": "array",
+          "description": "Elements in this band",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/staticText" },
+              { "$ref": "#/definitions/textField" }
+            ]
+          }
+        }
+      }
+    },
+    "staticText": {
+      "type": "object",
+      "required": ["type", "x", "y", "width", "height", "text"],
+      "properties": {
+        "type": { "const": "staticText" },
+        "x": { "type": "integer", "minimum": 0 },
+        "y": { "type": "integer", "minimum": 0 },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "text": { "type": "string" },
+        "style": { "$ref": "#/definitions/textStyle" }
+      }
+    },
+    "textField": {
+      "type": "object",
+      "required": ["type", "x", "y", "width", "height", "expression"],
+      "properties": {
+        "type": { "const": "textField" },
+        "x": { "type": "integer", "minimum": 0 },
+        "y": { "type": "integer", "minimum": 0 },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "expression": { "type": "string" },
+        "style": { "$ref": "#/definitions/textStyle" }
+      }
+    },
+    "textStyle": {
+      "type": "object",
+      "properties": {
+        "fontSize": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "fontWeight": {
+          "type": "string",
+          "enum": ["normal", "bold"]
+        },
+        "align": {
+          "type": "string",
+          "enum": ["left", "center", "right"]
+        }
+      }
+    }
+  }
+}

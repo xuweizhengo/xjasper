@@ -1,0 +1,19 @@
+[package]
+name = "xjasper-data"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Data source abstraction and variable aggregation for XJasper"
+
+[dependencies]
+xjasper-core = { path = "../xjasper-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+rust_decimal = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }

@@ -1,0 +1,19 @@
+[package]
+name = "xjasper-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Core types, expression engine, template parser, and compiler for XJasper"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+rust_decimal = { workspace = true }
+thiserror = { workspace = true }
+rhai = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
