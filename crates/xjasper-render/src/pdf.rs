@@ -3,6 +3,7 @@
 use xjasper_layout::filled::{FilledDocument, FilledElement};
 use printpdf::*;
 use thiserror::Error;
+use std::io::BufWriter;
 
 #[derive(Debug, Error)]
 pub enum PdfError {
@@ -47,9 +48,12 @@ impl PdfRenderer {
 
         // Save to bytes
         let mut buffer = Vec::new();
-        pdf_doc
-            .save(&mut buffer)
-            .map_err(|e| PdfError::GenerationError(format!("Failed to save PDF: {:?}", e)))?;
+        {
+            let mut buf_writer = BufWriter::new(&mut buffer);
+            pdf_doc
+                .save(&mut buf_writer)
+                .map_err(|e| PdfError::GenerationError(format!("Failed to save PDF: {:?}", e)))?;
+        } // buf_writer dropped here
 
         Ok(buffer)
     }
@@ -68,7 +72,7 @@ impl PdfRenderer {
                 let y_mm = Mm((page_height - text.y - text.height) as f32 * 0.352778);
 
                 // Get font size
-                let font_size = text.style.font_size.unwrap_or(12) as i64;
+                let font_size = text.style.font_size.unwrap_or(12) as f32;
 
                 // Write text
                 layer.use_text(&text.text, font_size, x_mm, y_mm, font);
